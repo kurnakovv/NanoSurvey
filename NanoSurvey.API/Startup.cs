@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NanoSurvey.API.DBContexts;
+using NanoSurvey.API.Services;
+using NanoSurvey.API.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +30,9 @@ namespace NanoSurvey.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ISurveyService, SurveyService>();
+            services.AddDbContext<AppDbContext>(options 
+                => options.UseSqlServer(Configuration.GetConnectionString("NanoSurneyDb")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
