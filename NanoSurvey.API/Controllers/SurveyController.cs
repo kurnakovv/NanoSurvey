@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NanoSurvey.API.DTOs;
 using NanoSurvey.API.Entities;
 using NanoSurvey.API.Exceptions;
 using NanoSurvey.API.Services.Abstract;
@@ -41,14 +42,27 @@ namespace NanoSurvey.API.Controllers
         /// <summary>
         /// Save question result.
         /// </summary>
-        /// <param name="question">Current question.</param>
+        /// <param name="resultDTO">Current result.</param>
         /// <returns>Next question id.</returns>
         [HttpPost]
-        public async Task<ActionResult<int>> Save(Question question)
+        public async Task<ActionResult<int>> Save(ResultDTO resultDTO)
         {
-            var nextQuestionId = await _surveyService.SaveQuestionResult(question);
+            try
+            {
+                var result = new Result()
+                {
+                    QuestionId = resultDTO.QuestionId,
+                    AnswerId = resultDTO.AnswerId,
+                };
 
-            return nextQuestionId;
+                var nextQuestionId = await _surveyService.SaveQuestionResult(result);
+
+                return Ok(nextQuestionId);
+            }
+            catch(ObjectNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

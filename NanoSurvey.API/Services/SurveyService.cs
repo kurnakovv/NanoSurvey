@@ -28,32 +28,56 @@ namespace NanoSurvey.API.Services
 
             if (question == null)
             {
-                throw new ObjectNotFoundException($"Question by id: {id} not found");
+                throw new ObjectNotFoundException($"Question by id: {id} not found.");
             }
 
             return question;
         }
 
-        public async Task<int> SaveQuestionResult(Question question)
+        public async Task<int> SaveQuestionResult(Result result)
         {
-            throw new NotImplementedException();
-            //var findedQuestion = await _appDbContext.Questions
-            //    //.Include(q => q.Answers)
-            //    .Include(q => q.Survey.Interview.Result.Answers)
-            //    .FirstOrDefaultAsync(q => q.Id == question.Id);
+            await GetQuestionById(result.QuestionId);
+            await GetAnswerById(result.AnswerId);
 
-            //findedQuestion.Answers = question.Answers;
+            var interview = new Interview()
+            {
+                Result = result,
+            };
 
-            //if (question.Id == 0)
-            //{
-            //    return -1;
-            //}
+            _appDbContext.Results.Add(result);
+            _appDbContext.Interviews.Add(interview);
 
-            //_appDbContext.Results.Add(findedQuestion.Survey.Interview.Result);
-            //await _appDbContext.SaveChangesAsync();
+            await _appDbContext.SaveChangesAsync();
 
-            //var nextQuestionId = question.Id + 1;
-            //return nextQuestionId;
+            int nextQuestionId = await TryGetNextQuestionId(result.QuestionId);
+
+            return nextQuestionId;
+        }
+
+        private async Task<Answer> GetAnswerById(int answerId)
+        {
+            var answer = await _appDbContext.Answers.FirstOrDefaultAsync(a => a.Id == answerId);
+
+            if(answer == null)
+            {
+                throw new ObjectNotFoundException($"Answer by id {answerId} not found.");
+            }
+
+            return answer;
+        }
+
+        private async Task<int> TryGetNextQuestionId(int questionId)
+        {
+            var nextQuestionId = questionId + 1;
+
+            var question = await _appDbContext.Questions.FirstOrDefaultAsync(q => q.Id == nextQuestionId);
+
+            if(question == null)
+            {
+                return 0;
+            }
+
+            return nextQuestionId;
         }
     }
 }
