@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace NanoSurvey.API.Entities
+namespace NanoSurvey.Application.Entities
 {
     public class Survey
     {

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NanoSurvey.API.Entities;
+using NanoSurvey.Application.Entities;
 
-namespace NanoSurvey.API.DBContexts
+namespace NanoSurvey.Infrastructure.DBContexts
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+               : base(options) { }
 
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<Question> Questions { get; set; }

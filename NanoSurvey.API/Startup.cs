@@ -8,9 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using NanoSurvey.API.DBContexts;
-using NanoSurvey.API.Services;
-using NanoSurvey.API.Services.Abstract;
+using NanoSurvey.Infrastructure.DBContexts;
+using NanoSurvey.Infrastructure.DI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +29,7 @@ namespace NanoSurvey.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ISurveyService, SurveyService>();
+            services.ConfigureDependencies();
             services.AddDbContext<AppDbContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("NanoSurneyDb")));
 

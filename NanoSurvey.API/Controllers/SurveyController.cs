@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NanoSurvey.API.DTOs;
-using NanoSurvey.API.Entities;
-using NanoSurvey.API.Exceptions;
-using NanoSurvey.API.Services.Abstract;
+using NanoSurvey.Application.Abstracts.Services;
+using NanoSurvey.Application.Entities;
+using NanoSurvey.Application.Exceptions;
 using System.Threading.Tasks;
 
 namespace NanoSurvey.API.Controllers
@@ -12,12 +12,12 @@ namespace NanoSurvey.API.Controllers
     public class SurveyController : ControllerBase
     {
         public SurveyController(
-            ISurveyService surveyService)
+            ISurveyServiceAsync surveyServiceAsync)
         {
-            _surveyService = surveyService;
+            _surveyServiceAsync = surveyServiceAsync;
         }
 
-        private readonly ISurveyService _surveyService;
+        private readonly ISurveyServiceAsync _surveyServiceAsync;
 
         /// <summary>
         /// Get question.
@@ -29,7 +29,7 @@ namespace NanoSurvey.API.Controllers
         {
             try
             {
-                var question = await _surveyService.GetQuestionById(id);
+                var question = await _surveyServiceAsync.GetQuestionByIdAsync(id);
 
                 return Ok(question);
             }
@@ -55,7 +55,7 @@ namespace NanoSurvey.API.Controllers
                     AnswerId = resultDTO.AnswerId,
                 };
 
-                var nextQuestionId = await _surveyService.SaveQuestionResult(result);
+                var nextQuestionId = await _surveyServiceAsync.SaveQuestionResultAsync(result);
 
                 return Ok(nextQuestionId);
             }

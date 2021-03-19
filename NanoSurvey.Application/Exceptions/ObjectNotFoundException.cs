@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NanoSurvey.API.Exceptions
+namespace NanoSurvey.Application.Exceptions
 {
     public class ObjectNotFoundException : InvalidOperationException
     {

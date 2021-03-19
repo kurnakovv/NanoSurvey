@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NanoSurvey.API.Entities
+namespace NanoSurvey.Application.Entities
 {
     public class Interview
     {
