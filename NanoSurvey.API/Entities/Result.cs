@@ -7,11 +7,11 @@ namespace NanoSurvey.API.Entities
         public Result()
         {
             Interviews = new List<Interview>();
-            Answers = new List<Answer>();
         }
 
         public int Id { get; set; }
-        public IEnumerable<Interview> Interviews { get; private set; }
-        public ICollection<Answer> Answers { get; set; }
+        public IEnumerable<Interview> Interviews { get; set; }
+        public int QuestionId { get; set; }
+        public int AnswerId { get; set; }
     }
 }

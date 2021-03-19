@@ -13,6 +13,5 @@ namespace NanoSurvey.API.DBContexts
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Interview> Interviews { get; set; }
         public DbSet<Result> Results { get; set; }
-       // public DbSet<ResultAnswer> ResultAnswers { get; set; }
     }
 }

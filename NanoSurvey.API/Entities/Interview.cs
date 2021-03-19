@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace NanoSurvey.API.Entities
 {
@@ -10,9 +9,8 @@ namespace NanoSurvey.API.Entities
             Surveys = new List<Survey>();
         }
 
-        public int Id { get; private set; }
-        public IEnumerable<Survey> Surveys { get; private set; }
-        [JsonIgnore]
-        public Result Result { get; private set; }
+        public int Id { get; set; }
+        public IEnumerable<Survey> Surveys { get; set; }
+        public Result Result { get; set; }
     }
 }

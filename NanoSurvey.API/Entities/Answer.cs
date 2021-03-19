@@ -8,7 +8,5 @@ namespace NanoSurvey.API.Entities
         public string Text { get; set; }
         [JsonIgnore]
         public Question Question { get; set; }
-        [JsonIgnore]
-        public Result Result { get; set; }
     }
 }
