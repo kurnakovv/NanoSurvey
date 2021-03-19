@@ -31,7 +31,13 @@ namespace NanoSurvey.API.Controllers
             {
                 var question = await _surveyServiceAsync.GetQuestionByIdAsync(id);
 
-                return Ok(question);
+                var questionAnswersDTO = new QuestionAnswersDTO()
+                {
+                    Question = question,
+                    Answers = question.Answers,
+                };
+
+                return Ok(questionAnswersDTO);
             }
             catch(ObjectNotFoundException ex)
             {

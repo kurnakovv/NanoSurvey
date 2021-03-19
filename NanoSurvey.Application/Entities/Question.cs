@@ -14,6 +14,7 @@ namespace NanoSurvey.Application.Entities
         public string Title { get; set; }
         [JsonIgnore]
         public Survey Survey { get; set; }
+        [JsonIgnore]
         public ICollection<Answer> Answers { get; set; }
     }
 }
