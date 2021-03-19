@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NanoSurvey.API.DTOs;
 using NanoSurvey.Application.Abstracts.Services;
 using NanoSurvey.Application.Entities;
@@ -12,12 +13,15 @@ namespace NanoSurvey.API.Controllers
     public class SurveyController : ControllerBase
     {
         public SurveyController(
-            ISurveyServiceAsync surveyServiceAsync)
+            ISurveyServiceAsync surveyServiceAsync,
+            IMapper mapper)
         {
             _surveyServiceAsync = surveyServiceAsync;
+            _mapper = mapper;
         }
 
         private readonly ISurveyServiceAsync _surveyServiceAsync;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Get question.
@@ -31,11 +35,7 @@ namespace NanoSurvey.API.Controllers
             {
                 var question = await _surveyServiceAsync.GetQuestionByIdAsync(id);
 
-                var questionAnswersDTO = new QuestionAnswersDTO()
-                {
-                    Question = question,
-                    Answers = question.Answers,
-                };
+                var questionAnswersDTO = _mapper.Map<QuestionAnswersDTO>(question);
 
                 return Ok(questionAnswersDTO);
             }
@@ -55,11 +55,7 @@ namespace NanoSurvey.API.Controllers
         {
             try
             {
-                var result = new Result()
-                {
-                    QuestionId = resultDTO.QuestionId,
-                    AnswerId = resultDTO.AnswerId,
-                };
+                var result = _mapper.Map<Result>(resultDTO);
 
                 var nextQuestionId = await _surveyServiceAsync.SaveQuestionResultAsync(result);
 
